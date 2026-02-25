@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAG Assistant - Ask Your Documents</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <span class="logo-icon">&#129302;</span>
+          <span class="logo-text">RAG Assistant</span>
+        </div>
+        <p class="sidebar-subtitle">AI-Powered Document Q&A</p>
+      </div>
+
+      <div class="upload-section">
+        <h3>Upload Document</h3>
+        <div class="upload-box" id="uploadBox">
+          <div class="upload-icon">&#128196;</div>
+          <p>Drop PDF here or click to browse</p>
+          <input type="file" id="fileInput" accept=".pdf" hidden />
+          <button class="btn btn-upload" onclick="document.getElementById('fileInput').click()">
+            Choose PDF File
+          </button>
+        </div>
+        <div id="uploadStatus" class="upload-status hidden"></div>
+      </div>
+
+      <div class="sidebar-info">
+        <h3>How it works</h3>
+        <ol class="steps-list">
+          <li>Upload a PDF document</li>
+          <li>Wait for indexing (~30 sec)</li>
+          <li>Ask any question about it</li>
+          <li>Get AI-powered answers</li>
+        </ol>
+      </div>
+
+      <div class="sidebar-footer">
+        <span class="tech-badge">OpenAI GPT-4o-mini</span>
+        <span class="tech-badge">Pinecone</span>
+        <span class="tech-badge">AWS Lambda</span>
+      </div>
+    </aside>
+
+    <!-- Main Chat Area -->
+    <main class="chat-area">
+      <header class="chat-header">
+        <h1>Ask Your Document</h1>
+        <span id="statusIndicator" class="status-indicator status-ready">Ready</span>
+      </header>
+
+      <div class="messages-container" id="messagesContainer">
+        <div class="welcome-message">
+          <div class="welcome-icon">&#128218;</div>
+          <h2>Welcome to RAG Assistant</h2>
+          <p>Upload a PDF on the left, then ask me anything about its contents. I will search through the document and give you accurate, cited answers.</p>
+          <div class="example-questions">
+            <p><strong>Try asking:</strong></p>
+            <button class="example-btn" onclick="useExample(this)">What is the main topic of this document?</button>
+            <button class="example-btn" onclick="useExample(this)">Summarize the key points</button>
+            <button class="example-btn" onclick="useExample(this)">What conclusions are drawn?</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-area">
+        <div class="input-wrapper">
+          <textarea
+            id="questionInput"
+            placeholder="Ask a question about your document..."
+            rows="1"
+            onkeydown="handleKeyDown(event)"
+            oninput="autoResize(this)"
+          ></textarea>
+          <button class="btn btn-send" id="sendBtn" onclick="sendQuestion()">
+            <span>Send</span>
+            <span class="send-icon">&#10148;</span>
+          </button>
+        </div>
+        <p class="input-hint">Press Enter to send &middot; Shift+Enter for new line</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
